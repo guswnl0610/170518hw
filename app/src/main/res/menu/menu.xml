@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menublur"
+        android:checkable="true"
+        android:title="Bluring" />
+    <item
+        android:id="@+id/menucolor"
+        android:checkable="true"
+        android:title="Coloring" />
+    <item
+        android:id="@+id/menupenwb"
+        android:checkable="true"
+        android:title="Pen Width Big" />
+    <item android:title="Pen Color Red"
+        android:id="@+id/menured"/>
+    <item android:title="Pen Color Blue"
+        android:id="@+id/menublue"/>
+</menu>
