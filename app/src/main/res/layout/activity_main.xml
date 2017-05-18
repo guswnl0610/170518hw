@@ -21,6 +21,7 @@
             android:text="Stamp" />
 
         <Button
+            android:onClick="onClick"
             android:id="@+id/btnerase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,6 +29,7 @@
             android:text="ERASER" />
 
         <Button
+            android:onClick="onClick"
             android:id="@+id/btnopen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,6 +37,7 @@
             android:text="OPEN" />
 
         <Button
+            android:onClick="onClick"
             android:id="@+id/btnsave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,7 +46,7 @@
 
     </LinearLayout>
     <com.example.guswn_000.a170518hw.Mypainter
-
+        android:id="@+id/painter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
@@ -54,6 +57,7 @@
         android:orientation="horizontal">
 
         <Button
+            android:onClick="onClick"
             android:id="@+id/btnrotate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,6 +65,7 @@
             android:text="ROTATE" />
 
         <Button
+            android:onClick="onClick"
             android:id="@+id/btnmove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,6 +73,7 @@
             android:text="MOVE" />
 
         <Button
+            android:onClick="onClick"
             android:id="@+id/btnscale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -75,6 +81,7 @@
             android:text="SCALE" />
 
         <Button
+            android:onClick="onClick"
             android:id="@+id/btnskew"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -3,8 +3,11 @@ package com.example.guswn_000.a170518hw;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -17,9 +20,11 @@ import android.view.View;
 
 public class Mypainter extends View {
 
+    String operation = "";
     Bitmap mbitmap;
     Canvas mcanvas;
     Paint mpaint = new Paint();
+    Bitmap img = BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher);
 
     public Mypainter(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -44,14 +49,38 @@ public class Mypainter extends View {
         mcanvas.setBitmap(mbitmap);
         mcanvas.drawColor(Color.WHITE);
 
-        drawStamp();
+//        drawStamp();
 
     }
 
-    private void drawStamp()
+    private void drawStamp(int X, int Y)
     {
-        Bitmap img = BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher);
-        mcanvas.drawBitmap(img,10,10,mpaint);
+        if(operation.equals("Blur"))
+        {
+            BlurMaskFilter blur = new BlurMaskFilter(1000, BlurMaskFilter.Blur.INNER);
+            mpaint.setMaskFilter(blur);
+            mcanvas.drawBitmap(img,X,Y,mpaint);
+        }
+        if(operation.equals("Color"))
+        {
+            float[] array = {
+                    2f,0,0,0,-10f,
+                    0,2f,0,0,-10f,
+                    0,0,2f,0,-10f,
+                    0,0,0,2f,0
+            };
+            ColorMatrix matrix = new ColorMatrix(array);
+            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+            mpaint.setColorFilter(filter);
+            mcanvas.drawBitmap(img,X,Y,mpaint);
+        }
+        else
+        {
+            mpaint.setColorFilter(null);
+            mpaint.setMaskFilter(null);
+            mcanvas.drawBitmap(img,X,Y,mpaint);
+        }
+
     }
 
     @Override
@@ -59,6 +88,7 @@ public class Mypainter extends View {
         super.onDraw(canvas);
         if(mbitmap != null)
             canvas.drawBitmap(mbitmap,0,0,null);
+
     }
 
 
@@ -85,10 +115,30 @@ public class Mypainter extends View {
             if(oldX != -1)
             {
                 mcanvas.drawLine(oldX,oldY,X,Y,mpaint);
+                drawStamp(X,Y);
                 invalidate();
             }
             oldX = -1; oldY = -1;
         }
         return true;
     }
+
+    public void Eraser()
+    {
+        mbitmap.eraseColor(Color.WHITE);
+        invalidate();
+    }
+    public void rotatestamp()
+    {
+        mcanvas.rotate(45,mcanvas.getWidth()/2,mcanvas.getHeight()/2);
+        invalidate();
+    }
+
+    public void setOperationtype(String operationtype)
+    {
+        this.operation = operationtype;
+//        invalidate();
+    }
+
+
 }
