@@ -36,14 +36,15 @@ public class Mypainter extends View {
     {
         super(context, attrs);
         mpaint.setColor(Color.BLACK);
-        mpaint.setStrokeWidth(2);
+        mpaint.setStrokeWidth(3);
         this.setLayerType(LAYER_TYPE_SOFTWARE,null);
     }
 
-    public Mypainter(Context context) {
+    public Mypainter(Context context)
+    {
         super(context);
         mpaint.setColor(Color.BLACK);
-        mpaint.setStrokeWidth(2);
+        mpaint.setStrokeWidth(3);
         this.setLayerType(LAYER_TYPE_SOFTWARE,null);
     }
 
@@ -163,7 +164,7 @@ public class Mypainter extends View {
         }
         else
         {
-            mpaint.setStrokeWidth(2);
+            mpaint.setStrokeWidth(3);
         }
     }
     public void penRed()
@@ -174,8 +175,6 @@ public class Mypainter extends View {
     {
         mpaint.setColor(Color.BLUE);
     }
-
-
 
     //button
     public void Eraser()
@@ -229,7 +228,20 @@ public class Mypainter extends View {
 
     public void rotatestamp()
     {
-        mcanvas.rotate(45,mcanvas.getWidth()/2,mcanvas.getHeight()/2);
-        invalidate();
+        mcanvas.rotate(30,mcanvas.getWidth()/2,mcanvas.getHeight()/2);
     }
+    public void move()
+    {
+        mcanvas.translate(10,10);
+    }
+    public void scale()
+    {
+        mcanvas.scale(1.5f,1.5f);
+    }
+    public void skew()
+    {
+        mcanvas.skew(0.2f,0.2f);
+    }
+
+
 }

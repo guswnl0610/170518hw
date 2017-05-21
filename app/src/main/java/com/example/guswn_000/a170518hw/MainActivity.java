@@ -131,9 +131,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btnerase://지우긔
                 mypainter.Eraser();
                 break;
-            case R.id.btnmove://사랑은 뭅뭅
-                checkBox.setChecked(true);
-                break;
             case R.id.btnopen:
                 mypainter.Eraser();
                 mypainter.Open(getExternalPath() + "hwimg/img.jpg");
@@ -145,11 +142,17 @@ public class MainActivity extends AppCompatActivity {
                 checkBox.setChecked(true);
                 mypainter.rotatestamp();
                 break;
+            case R.id.btnmove://사랑은 뭅뭅
+                checkBox.setChecked(true);
+                mypainter.move();
+                break;
             case R.id.btnscale:
                 checkBox.setChecked(true);
+                mypainter.scale();
                 break;
             case R.id.btnskew:
                 checkBox.setChecked(true);
+                mypainter.skew();
                 break;
         }
 
