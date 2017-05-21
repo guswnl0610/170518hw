@@ -20,7 +20,6 @@ import android.view.View;
 
 public class Mypainter extends View {
 
-    String operation = "";
     Bitmap mbitmap;
     Canvas mcanvas;
     Paint mpaint = new Paint();
@@ -29,12 +28,14 @@ public class Mypainter extends View {
     public Mypainter(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         mpaint.setColor(Color.BLACK);
+        mpaint.setStrokeWidth(2);
         this.setLayerType(LAYER_TYPE_SOFTWARE,null);
     }
 
     public Mypainter(Context context) {
         super(context);
         mpaint.setColor(Color.BLACK);
+        mpaint.setStrokeWidth(2);
         this.setLayerType(LAYER_TYPE_SOFTWARE,null);
     }
 
@@ -55,32 +56,7 @@ public class Mypainter extends View {
 
     private void drawStamp(int X, int Y)
     {
-        if(operation.equals("Blur"))
-        {
-            BlurMaskFilter blur = new BlurMaskFilter(1000, BlurMaskFilter.Blur.INNER);
-            mpaint.setMaskFilter(blur);
             mcanvas.drawBitmap(img,X,Y,mpaint);
-        }
-        if(operation.equals("Color"))
-        {
-            float[] array = {
-                    2f,0,0,0,-10f,
-                    0,2f,0,0,-10f,
-                    0,0,2f,0,-10f,
-                    0,0,0,2f,0
-            };
-            ColorMatrix matrix = new ColorMatrix(array);
-            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-            mpaint.setColorFilter(filter);
-            mcanvas.drawBitmap(img,X,Y,mpaint);
-        }
-        else
-        {
-            mpaint.setColorFilter(null);
-            mpaint.setMaskFilter(null);
-            mcanvas.drawBitmap(img,X,Y,mpaint);
-        }
-
     }
 
     @Override
@@ -134,11 +110,47 @@ public class Mypainter extends View {
         invalidate();
     }
 
-    public void setOperationtype(String operationtype)
+    public void blur(boolean onoff)
     {
-        this.operation = operationtype;
-//        invalidate();
+        if(onoff == true)
+        {
+            BlurMaskFilter blur = new BlurMaskFilter(1000, BlurMaskFilter.Blur.INNER);
+            mpaint.setMaskFilter(blur);
+        }
+        else
+        {
+            mpaint.setMaskFilter(null);
+        }
+    }
+    public void color(boolean onoff)
+    {
+        if(onoff == true)
+        {
+            float[] array = {
+                    2f,0,0,0,-10f,
+                    0,2f,0,0,-10f,
+                    0,0,2f,0,-10f,
+                    0,0,0,2f,0
+            };
+            ColorMatrix matrix = new ColorMatrix(array);
+            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+            mpaint.setColorFilter(filter);
+        }
+        else
+        {
+            mpaint.setColorFilter(null);
+        }
     }
 
-
+    public void penwidth(boolean onoff)
+    {
+        if(onoff == true)
+        {
+            mpaint.setStrokeWidth(5);
+        }
+        else
+        {
+            mpaint.setStrokeWidth(2);
+        }
+    }
 }

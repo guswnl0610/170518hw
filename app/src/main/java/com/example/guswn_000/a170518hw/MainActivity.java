@@ -1,10 +1,15 @@
 package com.example.guswn_000.a170518hw;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     Mypainter mypainter;
@@ -14,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+        checkpermission();
     }
 
     public void init()
@@ -39,12 +45,12 @@ public class MainActivity extends AppCompatActivity {
                 if(item.isChecked())
                 {
                     item.setChecked(false);
-                    mypainter.setOperationtype("Blurx");
+                    mypainter.blur(false);
                 }
                 else
                 {
                     item.setChecked(true);
-                    mypainter.setOperationtype("Blur");
+                    mypainter.blur(true);
                 }
                 break;
 
@@ -52,25 +58,25 @@ public class MainActivity extends AppCompatActivity {
                 if (item.isChecked())
                 {
                     item.setChecked(false);
-                    mypainter.setOperationtype("Colorx");
+                    mypainter.color(false);
                 }
                 else
                 {
                     item.setChecked(true);
-                    mypainter.setOperationtype("Color");
+                    mypainter.color(true);
                 }
                 break;
             case R.id.menupenwb: //펜 굵기 체크메뉴
                 if (item.isChecked())
                 {
                     item.setChecked(false);
-                    mypainter.setOperationtype("Penwidthx");
+                    mypainter.penwidth(false);
                 }
 
                 else
                 {
                     item.setChecked(true);
-                    mypainter.setOperationtype("Penwidth");
+                    mypainter.penwidth(true);
                 }
 
 
@@ -109,5 +115,44 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
+
+    public void checkpermission()
+    {
+
+        int permissioninfo = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if(permissioninfo == PackageManager.PERMISSION_GRANTED){
+//            Toast.makeText(this,
+//                    "SDCard 쓰기 권한 있음",Toast.LENGTH_SHORT).show();
+        }
+        else {
+
+            //사실 이프문 안써도되는데
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                Toast.makeText(this,
+                        "어플리케이션 설정에서 저장소 사용 권한을 허용해주세요",Toast.LENGTH_SHORT).show();
+
+                //이밑에꺼 해야 권한허용 대화상자가 다시뜸
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        100);
+            }
+            else{
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        100);  // 이 100은 리퀘스트코드다
+            }
+        }
+    }
+
+
+
+
+
+
+
 
 }
