@@ -46,14 +46,12 @@ public class MainActivity extends AppCompatActivity {
         File file = new File(path + "hwimg");
         file.mkdir();
 
-        String mkdirerrormsg = "디렉토리 생성";
-        if(file.isDirectory() == false)
-        {
-            mkdirerrormsg = "디렉토리 생성 오류";
-        }
-        Toast.makeText(this,mkdirerrormsg,Toast.LENGTH_SHORT).show();
-
-
+//        String mkdirerrormsg = "디렉토리 생성";
+//        if(file.isDirectory() == false)
+//        {
+//            mkdirerrormsg = "디렉토리 생성 오류";
+//        }
+//        Toast.makeText(this,mkdirerrormsg,Toast.LENGTH_SHORT).show();
 
     }
 
@@ -166,8 +164,8 @@ public class MainActivity extends AppCompatActivity {
         int permissioninfo = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if(permissioninfo == PackageManager.PERMISSION_GRANTED){
-            Toast.makeText(this,
-                    "SDCard 쓰기 권한 있음",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this,
+//                    "SDCard 쓰기 권한 있음",Toast.LENGTH_SHORT).show();
         }
         else {
 
