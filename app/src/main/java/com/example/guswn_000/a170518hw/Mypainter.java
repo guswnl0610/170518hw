@@ -19,13 +19,15 @@ import android.view.View;
  */
 
 public class Mypainter extends View {
-
+    int oldX,oldY = -1;
     Bitmap mbitmap;
     Canvas mcanvas;
     Paint mpaint = new Paint();
     Bitmap img = BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher);
+    boolean check;
 
-    public Mypainter(Context context, @Nullable AttributeSet attrs) {
+    public Mypainter(Context context, @Nullable AttributeSet attrs)
+    {
         super(context, attrs);
         mpaint.setColor(Color.BLACK);
         mpaint.setStrokeWidth(2);
@@ -68,7 +70,7 @@ public class Mypainter extends View {
     }
 
 
-    int oldX,oldY = -1;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int X = (int)event.getX();
@@ -81,7 +83,10 @@ public class Mypainter extends View {
         {
             if(oldX != -1)
             {
-                mcanvas.drawLine(oldX,oldY,X,Y,mpaint);
+                if(!check) //체크안됐음
+                {
+                    mcanvas.drawLine(oldX,oldY,X,Y,mpaint);
+                }
                 invalidate();
                 oldX = X; oldY = Y;
             }
@@ -90,13 +95,24 @@ public class Mypainter extends View {
         {
             if(oldX != -1)
             {
-                mcanvas.drawLine(oldX,oldY,X,Y,mpaint);
-                drawStamp(X,Y);
-                invalidate();
+                if(check)
+                {
+                    drawStamp(X,Y);
+                }
+                else
+                {
+                    mcanvas.drawLine(oldX,oldY,X,Y,mpaint);
+                }
             }
+            invalidate();
             oldX = -1; oldY = -1;
         }
         return true;
+    }
+
+    public void checkboxcheck(boolean checked)
+    {
+        check = checked;
     }
 
     public void Eraser()
@@ -114,7 +130,7 @@ public class Mypainter extends View {
     {
         if(onoff == true)
         {
-            BlurMaskFilter blur = new BlurMaskFilter(1000, BlurMaskFilter.Blur.INNER);
+            BlurMaskFilter blur = new BlurMaskFilter(10, BlurMaskFilter.Blur.INNER);
             mpaint.setMaskFilter(blur);
         }
         else
@@ -152,5 +168,13 @@ public class Mypainter extends View {
         {
             mpaint.setStrokeWidth(2);
         }
+    }
+    public void penRed()
+    {
+        mpaint.setColor(Color.RED);
+    }
+    public void penBlue()
+    {
+        mpaint.setColor(Color.BLUE);
     }
 }

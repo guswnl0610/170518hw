@@ -9,15 +9,19 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     Mypainter mypainter;
+    CheckBox checkBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("Graphics");
         init();
         checkpermission();
     }
@@ -25,6 +29,14 @@ public class MainActivity extends AppCompatActivity {
     public void init()
     {
         mypainter = (Mypainter)findViewById(R.id.painter);
+        checkBox = (CheckBox)findViewById(R.id.checkBox);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                mypainter.checkboxcheck(isChecked);
+            }
+        });
     }
 
 
@@ -72,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
                     item.setChecked(false);
                     mypainter.penwidth(false);
                 }
-
                 else
                 {
                     item.setChecked(true);
@@ -82,16 +93,17 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
             case R.id.menured:
-
+                mypainter.penRed();
                 break;
             case R.id.menublue:
-
+                mypainter.penBlue();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
 
+    //버튼
     public void onClick(View v)
     {
         switch (v.getId())
