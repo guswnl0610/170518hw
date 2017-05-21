@@ -30,7 +30,7 @@ public class Mypainter extends View {
     Canvas mcanvas;
     Paint mpaint = new Paint();
     Bitmap img = BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher);
-    boolean check;
+    boolean check,scaled;
 
     public Mypainter(Context context, @Nullable AttributeSet attrs)
     {
@@ -65,7 +65,17 @@ public class Mypainter extends View {
 
     private void drawStamp(int X, int Y)
     {
+        if(scaled==true)
+        {
+            Bitmap bigimg = Bitmap.createScaledBitmap(img,img.getWidth()*2,img.getHeight()*2,false);
+            mcanvas.drawBitmap(bigimg,X,Y,mpaint);
+
+        }
+        else
+        {
             mcanvas.drawBitmap(img,X,Y,mpaint);
+        }
+
     }
 
     @Override
@@ -236,7 +246,8 @@ public class Mypainter extends View {
     }
     public void scale()
     {
-        mcanvas.scale(1.5f,1.5f);
+        scaled = true;
+//        mcanvas.scale(1.5f,1.5f);
     }
     public void skew()
     {
