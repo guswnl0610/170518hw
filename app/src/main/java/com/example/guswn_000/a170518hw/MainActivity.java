@@ -2,6 +2,7 @@ package com.example.guswn_000.a170518hw;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity {
     Mypainter mypainter;
     CheckBox checkBox;
@@ -22,8 +25,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle("Graphics");
-        init();
+
         checkpermission();
+        init();
     }
 
     public void init()
@@ -37,7 +41,23 @@ public class MainActivity extends AppCompatActivity {
                 mypainter.checkboxcheck(isChecked);
             }
         });
+        //디렉토리 생성
+        String path = getExternalPath();
+        File file = new File(path + "hwimg");
+        file.mkdir();
+
+        String mkdirerrormsg = "디렉토리 생성";
+        if(file.isDirectory() == false)
+        {
+            mkdirerrormsg = "디렉토리 생성 오류";
+        }
+        Toast.makeText(this,mkdirerrormsg,Toast.LENGTH_SHORT).show();
+
+
+
     }
+
+
 
 
     //메뉴
@@ -112,17 +132,24 @@ public class MainActivity extends AppCompatActivity {
                 mypainter.Eraser();
                 break;
             case R.id.btnmove://사랑은 뭅뭅
+                checkBox.setChecked(true);
                 break;
             case R.id.btnopen:
+                mypainter.Eraser();
+                mypainter.Open(getExternalPath() + "hwimg/img.jpg");
                 break;
             case R.id.btnsave:
+                mypainter.Save(getExternalPath() + "hwimg/img.jpg");
                 break;
             case R.id.btnrotate:
+                checkBox.setChecked(true);
                 mypainter.rotatestamp();
                 break;
             case R.id.btnscale:
+                checkBox.setChecked(true);
                 break;
             case R.id.btnskew:
+                checkBox.setChecked(true);
                 break;
         }
 
@@ -136,8 +163,8 @@ public class MainActivity extends AppCompatActivity {
         int permissioninfo = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if(permissioninfo == PackageManager.PERMISSION_GRANTED){
-//            Toast.makeText(this,
-//                    "SDCard 쓰기 권한 있음",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,
+                    "SDCard 쓰기 권한 있음",Toast.LENGTH_SHORT).show();
         }
         else {
 
@@ -161,9 +188,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
-
+    public String getExternalPath()
+    {
+        String sdPath = "";
+        String ext = Environment.getExternalStorageState();
+        if(ext.equals(Environment.MEDIA_MOUNTED))
+        {
+            sdPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
+            //sdPath = "mnt/sdcard/";
+        }
+        else
+        {
+            sdPath = getFilesDir() + "";
+        }
+//        Toast.makeText(getApplicationContext(),sdPath,Toast.LENGTH_SHORT).show();
+        return sdPath;
+    }
 
 
 

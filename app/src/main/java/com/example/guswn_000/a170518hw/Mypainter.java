@@ -13,6 +13,12 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Created by guswn_000 on 2017-05-18.
@@ -115,17 +121,8 @@ public class Mypainter extends View {
         check = checked;
     }
 
-    public void Eraser()
-    {
-        mbitmap.eraseColor(Color.WHITE);
-        invalidate();
-    }
-    public void rotatestamp()
-    {
-        mcanvas.rotate(45,mcanvas.getWidth()/2,mcanvas.getHeight()/2);
-        invalidate();
-    }
 
+    //menu
     public void blur(boolean onoff)
     {
         if(onoff == true)
@@ -176,5 +173,63 @@ public class Mypainter extends View {
     public void penBlue()
     {
         mpaint.setColor(Color.BLUE);
+    }
+
+
+
+    //button
+    public void Eraser()
+    {
+        mbitmap.eraseColor(Color.WHITE);
+        invalidate();
+    }
+
+    public void Open(String filename)
+    {
+        try
+        {
+            FileInputStream in = new FileInputStream(filename);
+            mcanvas.scale(0.5f,0.5f);
+            mcanvas.drawBitmap(BitmapFactory.decodeStream(in),mcanvas.getWidth()/2,mcanvas.getHeight()/2,mpaint);
+            mcanvas.scale(2.0f,2.0f);
+            in.close();
+            invalidate();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+            Toast.makeText(getContext(),"저장된 파일이 없습니다.",Toast.LENGTH_SHORT).show();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            Toast.makeText(getContext(),"IO Exception",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void Save(String filename)
+    {
+        try
+        {
+            FileOutputStream out = new FileOutputStream(filename);
+            mbitmap.compress(Bitmap.CompressFormat.JPEG,100,out);
+            out.close();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+            Toast.makeText(getContext(),"File not found",Toast.LENGTH_SHORT).show();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            Toast.makeText(getContext(),"IO Exception",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void rotatestamp()
+    {
+        mcanvas.rotate(45,mcanvas.getWidth()/2,mcanvas.getHeight()/2);
+        invalidate();
     }
 }
